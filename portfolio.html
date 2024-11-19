@@ -29,8 +29,29 @@
 
 
   <button id="logoutButton" style="display: none;">Logout</button>
+                <div class="temperature" id="temperature" style="text-align: center;">
+                    Loading temperature...
+                </div>
+  <script>
+    async function fetchTemperature() {
+        const url = "https://api.open-meteo.com/v1/forecast?latitude=53.2144&longitude=63.6246&hourly=temperature_2m";
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            const currentHour = new Date().getHours();
+            const temperature = data.hourly.temperature_2m[currentHour];
 
-  <p id="timeGreeting"></p>
+            document.getElementById('temperature').textContent = `Temperature in Kostanay: ${temperature}°C`;
+        } catch (error) {
+            document.getElementById('temperature').textContent = "Error fetching temperature.";
+            console.error("Error fetching temperature data:", error);
+        }
+    }
+
+    fetchTemperature();
+</script>
+
 
     <section id="hobbies">
         <div class="container px-4 py-5" id="custom-cards">
